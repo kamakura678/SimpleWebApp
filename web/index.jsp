@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="artist" scope="request" class="com.simplewebapp.model.Artist" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,8 +14,8 @@
     </head>
     <body>
         <h1>Welcome Agans!</h1>
-        <% if(request.getParameter("fullName") == null) { %>
-            <form action="input.jsp">
+        <% if(artist.getFullName() == null) { %>
+            <form action="SimpleWebApp/AddArtist">
                 <p>
                     No Data Available 
                     <input type="submit" value="Add" name="addButton" />
