@@ -106,7 +106,33 @@ public class IndexController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        String fullName = request.getParameter("fullName");
+        String dob = request.getParameter("dob");    
+        String email = request.getParameter("email");
+        String job = request.getParameter("job");
+        
+        Date DoB = null;
+        if(dob != null && !"".equals(dob)) {
+            String date[] = dob.split("-");
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DATE, Integer.valueOf(date[0]));
+            cal.set(Calendar.MONTH, Integer.valueOf(date[1]) - 1);
+            cal.set(Calendar.YEAR, Integer.valueOf(date[2]));
+            DoB = cal.getTime();
+        }
+        
+        Artist artist = new Artist();
+        artist.setFullName(fullName);
+        artist.setDob(DoB);
+        artist.setEmail(email);
+        artist.setJob(Job.None);
+        if(job != null && !"".equals(job)) {
+            artist.setJob(Job.valueOf(job));
+        }
+        
+        request.setAttribute("artist", artist);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     /**

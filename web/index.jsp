@@ -4,6 +4,7 @@
     Author     : Irvan
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="artist" scope="request" class="com.simplewebapp.model.Artist" />
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
     <body>
         <h1>Welcome Agans!</h1>
         <% if(artist.getFullName() == null) { %>
-            <form action="SimpleWebApp/AddArtist">
+            <form action="AddArtist">
                 <p>
                     No Data Available 
                     <input type="submit" value="Add" name="addButton" />
@@ -36,21 +37,29 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><%= request.getParameter("fullName") %></td>
-                    <td><%= request.getParameter("dob") %></td>
-                    <td><%= request.getParameter("email") %></td>
-                    <td><%= request.getParameter("job") %></td>
+                    <td><jsp:getProperty name="artist" property="fullName" /></td>
+                    <td><% SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY"); %>
+                        <%= sdf.format(artist.getDob()) %>
+                    </td>
+                    <td><jsp:getProperty name="artist" property="email" /></td>
+                    <td><jsp:getProperty name="artist" property="job" /></td>
                     <td>
-                        <form action="input.jsp" method="POST">
-                            <table border="0">
-                                <tbody>
-                                    <tr>
-                                        <td><input type="submit" value="Edit" /></td>
-                                        <td><input type="submit" value="Remove" /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
+                        <table border="0">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <form action="AddArtist" method="POST">
+                                            <input type="hidden" name="fullName" value="<%= artist.getFullName() %>" />
+                                            <input type="hidden" name="dob" value="<%= sdf.format(artist.getDob()) %>" />
+                                            <input type="hidden" name="email" value="<%= artist.getEmail() %>" />
+                                            <input type="hidden" name="job" value="<%= artist.getJob() %>" />
+                                            <input type="submit" value="Edit" />
+                                        </form>
+                                    </td>
+                                    <td><input type="submit" value="Remove" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </td>
                 </tr>
             </tbody>
