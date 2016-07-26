@@ -13,23 +13,6 @@
     </head>
     <body>
         <p>Please enter your username and password</p>
-        <form action="j_security_check" method="POST">
-            <table border="0">
-                <tbody>
-                    <tr>
-                        <td align="right">Username : &nbsp;</td>
-                        <td><input type="text" name="username" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td align="right">Password : &nbsp;</td>
-                        <td><input type="password" name="password" value="" /></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="submit" value="login" /></td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
+        <%@include file="WEB-INF/jspf/loginform.jspf" %>
     </body>
 </html>

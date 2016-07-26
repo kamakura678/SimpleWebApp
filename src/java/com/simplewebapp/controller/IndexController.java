@@ -70,6 +70,14 @@ public class IndexController extends HttpServlet {
         String dob = request.getParameter("dob");    
         String email = request.getParameter("email");
         String job = request.getParameter("job");
+        String status = "";
+        
+        if(fullName == null || "".equals(fullName)) {
+            status = "noDataStatus=TRUE";
+        }
+        else {
+            status = "noDataStatus=FALSE";
+        }
         
         Date DoB = null;
         if(dob != null && !"".equals(dob)) {
@@ -92,7 +100,7 @@ public class IndexController extends HttpServlet {
         
         request.setAttribute("artist", artist);
         
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp?" + status).forward(request, response);
     }
 
     /**
@@ -111,6 +119,14 @@ public class IndexController extends HttpServlet {
         String dob = request.getParameter("dob");    
         String email = request.getParameter("email");
         String job = request.getParameter("job");
+        String status = "";
+        
+        if(fullName == null || "".equals(fullName)) {
+            status = "noDataStatus=TRUE";
+        }
+        else {
+            status = "noDataStatus=FALSE";
+        }
         
         Date DoB = null;
         if(dob != null && !"".equals(dob)) {
@@ -132,7 +148,7 @@ public class IndexController extends HttpServlet {
         }
         
         request.setAttribute("artist", artist);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp?" + status).forward(request, response);
     }
 
     /**
