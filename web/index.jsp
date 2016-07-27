@@ -16,17 +16,17 @@
     </head>
     <body>
         <h1>Welcome Agans!</h1>
-        <c:if test="${param.noDataStatus == 'TRUE'}" var="noData" scope="session">
-            <form action="AddArtist">
+        <c:choose>
+            <c:when test="${param.noDataStatus == 'TRUE'}">
+                <form action="AddArtist">
                 <p>
                     No Data Available 
                     <input type="submit" value="Add" name="addButton" />
                 </p>
             </form>
-        </c:if>
-
-        <c:if test="${param.noDataStatus == 'FALSE'}" var="noData" scope="session">
-            <table border="1">
+            </c:when>
+            <c:when test="${param.noDataStatus == 'FALSE'}">
+                <table border="1">
                 <thead>
                     <tr>
                         <th width="170">Full Name</th>
@@ -65,6 +65,7 @@
                     </tr>
                 </tbody>
             </table>
-        </c:if>
+            </c:when>
+        </c:choose>
     </body>
 </html>
