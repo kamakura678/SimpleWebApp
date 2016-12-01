@@ -23,9 +23,14 @@
                     No Data Available 
                     <input type="submit" value="Add" name="addButton" />
                 </p>
-            </form>
+                </form>
             </c:when>
             <c:when test="${param.noDataStatus == 'FALSE'}">
+                <form action="AddArtist">
+                <p>
+                    <input type="submit" value="Add" name="addButton" />
+                </p>
+                </form>
                 <table border="1">
                 <thead>
                     <tr>
@@ -39,7 +44,8 @@
                 <tbody>
                     <tr>
                         <td><jsp:getProperty name="artist" property="fullName" /></td>
-                        <td><% SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY"); %>
+                        <td>
+                            <% SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY"); %>
                             <%= sdf.format(artist.getDob()) %>
                         </td>
                         <td><jsp:getProperty name="artist" property="email" /></td>
