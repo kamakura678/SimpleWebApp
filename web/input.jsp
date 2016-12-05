@@ -22,7 +22,7 @@
 //            String job = (artist.getJob() != null ? artist.getJob() : "");
         %>
         <h1>Entry your Data</h1>
-        <form name="inputForm" action="IndexController" method="POST">
+        <form name="inputForm" action="AddArtist" method="POST">
             <table border="0" width="auto">
                 <tbody>
                     <tr>

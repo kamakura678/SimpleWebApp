@@ -9,6 +9,7 @@ import com.simplewebapp.model.Artist;
 import com.simplewebapp.model.Job;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -66,41 +67,24 @@ public class IndexController extends HttpServlet {
             throws ServletException, IOException {
 //        processRequest(request, response);
         response.setContentType("text/html;charset=UTF-8");
-        String fullName = request.getParameter("fullName");
-        String dob = request.getParameter("dob");    
-        String email = request.getParameter("email");
-        String job = request.getParameter("job");
         String status = "";
         
-        if(fullName == null || "".equals(fullName)) {
-            status = "noDataStatus=TRUE";
+        if(request.getSession().getAttribute("artistList") == null) {
+            status = "TRUE";
         }
         else {
-            status = "noDataStatus=FALSE";
+            ArrayList<Artist> artistList = (ArrayList<Artist>) request.getSession().getAttribute("artistList");
+            if(artistList.size() == 0) {
+                status = "TRUE";
+            }
+            else {
+                status = "FALSE";
+            }
         }
         
-        Date DoB = null;
-        if(dob != null && !"".equals(dob)) {
-            String date[] = dob.split("-");
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.DATE, Integer.valueOf(date[0]));
-            cal.set(Calendar.MONTH, Integer.valueOf(date[1]));
-            cal.set(Calendar.YEAR, Integer.valueOf(date[2]));
-            DoB = cal.getTime();
-        }
+        request.setAttribute("noDataStatus", status);
         
-        Artist artist = new Artist();
-        artist.setFullName(fullName);
-        artist.setDob(DoB);
-        artist.setEmail(email);
-        artist.setJob(Job.None);
-        if(job != null && !"".equals(job)) {
-            artist.setJob(Job.valueOf(job));
-        }
-        
-        request.setAttribute("artist", artist);
-        
-        request.getRequestDispatcher("index.jsp?" + status).forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     /**
@@ -147,7 +131,17 @@ public class IndexController extends HttpServlet {
             artist.setJob(Job.valueOf(job));
         }
         
+        ArrayList<Artist> artistList = new ArrayList<Artist>();
+        
+        if(request.getSession().getAttribute("artistList") != null) {
+            artistList = (ArrayList<Artist>) request.getSession().getAttribute("artistList");
+        }
+        
+        artistList.add(artist);
+        
         request.setAttribute("artist", artist);
+        request.setAttribute("artistList", artistList);
+        request.getSession().setAttribute("artistList", artistList);
         request.getRequestDispatcher("index.jsp?" + status).forward(request, response);
     }
 

@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Irvan
  */
-@WebServlet(name = "AddArtist", urlPatterns = {"/AddArtist"})
-public class AddArtist extends HttpServlet {
+@WebServlet(name = "RemoveArtist", urlPatterns = {"/RemoveArtist"})
+public class RemoveArtist extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -96,14 +97,14 @@ public class AddArtist extends HttpServlet {
             DoB = cal.getTime();
         }
         
-        Artist artist = new Artist();
-        artist.setFullName(fullName);
-        artist.setDob(DoB);
-        artist.setEmail(email);
-        artist.setJob(Job.None);
-        if(job != null && !"".equals(job)) {
-            artist.setJob(Job.valueOf(job));
-        }
+//        Artist artist = new Artist();
+//        artist.setFullName(fullName);
+//        artist.setDob(DoB);
+//        artist.setEmail(email);
+//        artist.setJob(Job.None);
+//        if(job != null && !"".equals(job)) {
+//            artist.setJob(Job.valueOf(job));
+//        }
         
         ArrayList<Artist> artistList = null;
         
@@ -111,14 +112,22 @@ public class AddArtist extends HttpServlet {
             artistList = (ArrayList<Artist>) request.getSession().getAttribute("artistList");
             status = "FALSE";
         }
-        else {
-            artistList = new ArrayList<Artist>();
-            status = "FALSE";
+        
+        Iterator<Artist> iter = artistList.iterator();
+        
+        while(iter.hasNext()) {
+            Artist artist = iter.next();
+            
+            if(fullName.equals(artist.getFullName())) {
+                iter.remove();
+            }
         }
         
-        artistList.add(artist);
+        if(artistList.size() == 0) {
+            status = "TRUE";
+        }
         
-        request.setAttribute("artist", artist);
+//        request.setAttribute("artist", artist);
         request.getSession().setAttribute("artistList", artistList);
         request.setAttribute("noDataStatus", status);
         request.getRequestDispatcher("index.jsp?").forward(request, response);

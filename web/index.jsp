@@ -1,4 +1,7 @@
+<%@page import="com.simplewebapp.model.Artist"%>
+<%@page import="java.util.ArrayList"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%-- 
     Document   : index
     Created on : Jul 18, 2016, 4:08:05 PM
@@ -9,6 +12,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="artist" scope="request" class="com.simplewebapp.model.Artist" />
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,7 +21,7 @@
     <body>
         <h1>Welcome Agans!</h1>
         <c:choose>
-            <c:when test="${param.noDataStatus == 'TRUE'}">
+            <c:when test="${requestScope.noDataStatus == 'TRUE'}">
                 <form action="AddArtist">
                 <p>
                     No Data Available 
@@ -25,7 +29,7 @@
                 </p>
                 </form>
             </c:when>
-            <c:when test="${param.noDataStatus == 'FALSE'}">
+            <c:when test="${requestScope.noDataStatus == 'FALSE'}">
                 <form action="AddArtist">
                 <p>
                     <input type="submit" value="Add" name="addButton" />
@@ -42,33 +46,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><jsp:getProperty name="artist" property="fullName" /></td>
-                        <td>
-                            <% SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY"); %>
-                            <%= sdf.format(artist.getDob()) %>
-                        </td>
-                        <td><jsp:getProperty name="artist" property="email" /></td>
-                        <td><jsp:getProperty name="artist" property="job" /></td>
-                        <td>
-                            <table border="0">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <form action="AddArtist" method="POST">
-                                                <input type="hidden" name="fullName" value="<%= artist.getFullName() %>" />
-                                                <input type="hidden" name="dob" value="<%= sdf.format(artist.getDob()) %>" />
-                                                <input type="hidden" name="email" value="<%= artist.getEmail() %>" />
-                                                <input type="hidden" name="job" value="<%= artist.getJob() %>" />
-                                                <input type="submit" value="Edit" />
-                                            </form>
-                                        </td>
-                                        <td><input type="submit" value="Remove" /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+                    <c:forEach var="artistList" items="${sessionScope.artistList}">
+                        <tr>
+                            <td>${artistList.fullName}</td>
+                            <td><fmt:formatDate value="${artistList.dob}" pattern="dd-MMM-yyyy" /></td>
+                            <td>${artistList.email}</td>
+                            <td>${artistList.job}</td>
+                            <td>
+                                <table border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <form action="AddArtist">
+                                                    <input type="hidden" name="fullName" value="${artistList.fullName}" />
+                                                    <input type="hidden" name="dob" value=<fmt:formatDate value="${artistList.dob}" pattern="dd-MM-yyyy" /> />
+                                                    <input type="hidden" name="email" value="${artistList.email}" />
+                                                    <input type="hidden" name="job" value="${artistList.job}" />
+                                                    <input type="submit" value="Edit" />
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form action="RemoveArtist" method="POST">
+                                                    <input type="hidden" name="fullName" value="${artistList.fullName}" />
+                                                    <input type="hidden" name="dob" value=<fmt:formatDate value="${artistList.dob}" pattern="dd-MM-yyyy" /> />
+                                                    <input type="hidden" name="email" value="${artistList.email}" />
+                                                    <input type="hidden" name="job" value="${artistList.job}" />
+                                                    <input type="submit" value="Remove" />
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
             </c:when>
