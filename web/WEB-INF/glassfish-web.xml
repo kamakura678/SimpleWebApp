@@ -5,6 +5,10 @@
     <role-name>admin</role-name>
     <group-name>appadmin</group-name>
   </security-role-mapping>
+  <resource-ref>
+    <res-ref-name>jdbc/sample</res-ref-name>
+    <jndi-name>jdbc/sample</jndi-name>
+  </resource-ref>
   <class-loader delegate="true"/>
   <jsp-config>
     <property name="keepgenerated" value="true">
