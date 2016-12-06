@@ -84,7 +84,7 @@ public class IndexController extends HttpServlet {
         
         request.setAttribute("noDataStatus", status);
         
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.xhtml").forward(request, response);
     }
 
     /**
