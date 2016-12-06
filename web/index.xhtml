@@ -31,10 +31,12 @@
                 <h:inputText id="age" label="Age" required="true" size="2" value="#{registrationBean.age}" />
                 <h:message for="age" />
                 <h:outputLabel value="Email" for="email" />
-                <h:inputText id="email" label="Email" value="#{registrationBean.email}" />
+                <h:inputText id="email" label="Email" value="#{registrationBean.email}" >
+                    <f:validator validatorId="emailValidator" />
+                </h:inputText>
                 <h:message for="email" />
                 <h:panelGroup />
-                <h:commandButton id="register" value="Register" accesskey="confirmation" />
+                <h:commandButton id="register" value="Register" action="confirmation" />
             </h:panelGrid>
         </h:form>
     </h:body>
