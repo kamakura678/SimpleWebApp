@@ -1,22 +1,47 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ezcomp="http://java.sun.com/jsf/composite/ezcomp">
 
     <body>
 
         <ui:composition template="./template.xhtml">
 
             <ui:define name="top">
-                top
+                <h2>Welcome to our Site</h2>
             </ui:define>
 
             <ui:define name="left">
-                left
+                <h3>Links</h3>
+                <ul>
+                    <li>
+                        <h:outputLink value="http://www.packtpub.com" >
+                            <h:outputText value="Packt Publishing" />
+                        </h:outputLink>
+                    </li>
+                    <li>
+                        <h:outputLink value="http://www.haluansoft.com" >
+                            <h:outputText value="Haluan Nusantara" />
+                        </h:outputLink>
+                    </li>
+                    <li>
+                        <h:outputLink value="http://www.facebook.com" >
+                            <h:outputText value="Fecebook" />
+                        </h:outputLink>
+                    </li>
+                </ul>
             </ui:define>
 
             <ui:define name="content">
-                content
+                <h:form>
+                    <h:panelGrid columns="1">
+                            <ezcomp:address managedBean="#{addressBean}" addrType="Home" />
+                            <h:commandButton value="Submit" action="cofirmation" 
+                                             style="display: block; margin: 0 auto;" />
+                    </h:panelGrid>
+                </h:form>
             </ui:define>
 
         </ui:composition>
